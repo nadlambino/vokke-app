@@ -1,14 +1,27 @@
 <script setup lang="ts">
+import Modal from '@/Components/Modal.vue';
+import PrimaryButton from '@/Components/PrimaryButton.vue';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import { Head } from '@inertiajs/vue3';
+import Form from '@/Components/Kangaroo/Form.vue';
+import { ref } from 'vue';
+
+const showForm = ref(false);
 </script>
 
 <template>
     <Head title="Kangaroo" />
 
+    <Modal :show="showForm">
+        <Form @close="showForm = false"/>
+    </Modal>
+
     <AuthenticatedLayout>
         <template #header>
-            <h2 class="font-semibold text-xl text-gray-800 leading-tight">Kangaroos</h2>
+            <div class="flex items-center justify-between">
+                <h2 class="font-semibold text-xl text-gray-800 leading-tight">Kangaroos</h2>
+                <PrimaryButton @click="showForm = true">Add a Kangaroo</PrimaryButton>
+            </div>
         </template>
 
         <div class="py-12">
