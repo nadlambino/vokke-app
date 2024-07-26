@@ -10,11 +10,12 @@ import { Kangaroo } from '@/types';
 import useKangarooApi from '@/utils/kangaroo';
 import { useToast } from 'primevue/usetoast';
 import Confirm from '@/Components/Confirm.vue';
+import FileUpload from '@/Components/FileUpload/FileUpload.vue';
 
 const emits = defineEmits(['close']);
 const { create } = useKangarooApi();
 const toast = useToast();
-const form = useForm<Kangaroo>({
+const form = useForm<Kangaroo & { images: FileList|null }>({
     name: '',
     nickname: '',
     weight: undefined,
@@ -23,6 +24,7 @@ const form = useForm<Kangaroo>({
     color: '',
     friendliness: undefined,
     birthday: '',
+    images: null,
 });
 const errors = reactive<{
     name?: string[];
@@ -170,6 +172,11 @@ const submit = () => {
                     />
                     <InputError class="mt-2" :message="errors.birthday" />
                 </div>
+            </div>
+
+            <div>
+                <InputLabel for="images" value="Images" />
+                <FileUpload id="images" multiple accept="image/*" v-model="form.images" />
             </div>
 
             <div class="w-full flex flex-col md:flex-row md:justify-end gap-2">
