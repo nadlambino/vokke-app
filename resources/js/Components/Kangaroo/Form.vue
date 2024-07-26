@@ -5,10 +5,11 @@ import TextInput from '@/Components/TextInput.vue';
 import Select from '@/Components/Select.vue';
 import PrimaryButton from '../PrimaryButton.vue';
 import { useForm } from '@inertiajs/vue3';
-import { reactive } from 'vue';
+import { reactive, ref } from 'vue';
 import { Kangaroo } from '@/types';
 import useKangarooApi from '@/utils/kangaroo';
 import { useToast } from 'primevue/usetoast';
+import Confirm from '@/Components/Confirm.vue';
 
 const emits = defineEmits(['close']);
 const { create } = useKangarooApi();
@@ -44,6 +45,8 @@ const friendlinessOptions = [
     { label: 'Independent', value: 'independent' },
 ];
 
+const showConfirm = ref(false);
+
 const cancel = () => {
     form.reset();
     emits('close');
@@ -53,6 +56,7 @@ const submit = () => {
     create(form.data())
         .then(() => {
             form.reset();
+            emits('close');
             toast.add({ severity: 'success', summary: 'Success', detail: 'Kangaroo created successfully', life: 3000 });
         })
         .catch((error) => {
@@ -67,9 +71,10 @@ const submit = () => {
 
 <template>
     <div class="p-4 space-y-3">
+        <Confirm v-model="showConfirm" message="Are you sure you want to add this kangaroo?" @proceed="submit" />
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">Form</h2>
 
-        <form class="space-y-5" @submit.prevent="submit">
+        <form class="space-y-5" @submit.prevent="showConfirm = true">
             <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
                 <div>
                     <InputLabel for="name" value="Name" required />
