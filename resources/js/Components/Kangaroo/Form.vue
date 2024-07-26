@@ -5,19 +5,32 @@ import TextInput from '@/Components/TextInput.vue';
 import { useForm } from '@inertiajs/vue3';
 import Select from '@/Components/Select.vue';
 import PrimaryButton from '../PrimaryButton.vue';
+import useKangarooApi from '@/utils/kangaroo';
+import { Kangaroo } from '@/utils/kangaroo/types';
+import { reactive } from 'vue';
 
 const emits = defineEmits(['close']);
-
-const form = useForm({
+const { create } = useKangarooApi();
+const form = useForm<Kangaroo>({
     name: '',
     nickname: '',
-    weight: '',
-    height: '',
-    gender: '',
+    weight: undefined,
+    height: undefined,
+    gender: undefined,
     color: '',
-    friendliness: '',
+    friendliness: undefined,
     birthday: '',
 });
+const errors = reactive<{
+    name?: string[];
+    nickname?: string[];
+    weight?: string[];
+    height?: string[];
+    gender?: string[];
+    color?: string[];
+    friendliness?: string[];
+    birthday?: string[];
+}>({});
 
 const genderOptions = [
     { label: 'Male', value: 'male' },
@@ -33,13 +46,28 @@ const cancel = () => {
     form.reset();
     emits('close');
 };
+
+const submit = () => {
+    create(form.data())
+        .then(() => {
+            form.reset();
+            alert('Kangaroo created successfully');
+        })
+        .catch((error) => {
+            if (error.response.status === 422) {
+                Object.assign(errors, error.response.data.errors);
+            }
+
+            alert('Failed to create kangaroo');
+        });
+}
 </script>
 
 <template>
     <div class="p-4 space-y-3">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">Form</h2>
 
-        <form class="space-y-5">
+        <form class="space-y-5" @submit.prevent="submit">
             <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
                 <div>
                     <InputLabel for="name" value="Name" required />
@@ -50,7 +78,7 @@ const cancel = () => {
                         required
                         autofocus
                     />
-                    <InputError class="mt-2" :message="form.errors.name" />
+                    <InputError class="mt-2" :message="errors.name" />
                 </div>
                 <div>
                     <InputLabel for="nickname" value="Nickname" />
@@ -59,7 +87,7 @@ const cancel = () => {
                         class="mt-1 block w-full"
                         v-model="form.nickname"
                     />
-                    <InputError class="mt-2" :message="form.errors.nickname" />
+                    <InputError class="mt-2" :message="errors.nickname" />
                 </div>
             </div>
 
@@ -74,7 +102,7 @@ const cancel = () => {
                         v-model="form.weight"
                         required
                     />
-                    <InputError class="mt-2" :message="form.errors.weight" />
+                    <InputError class="mt-2" :message="errors.weight" />
                 </div>
                 <div>
                     <InputLabel for="height" value="Height" required />
@@ -86,7 +114,7 @@ const cancel = () => {
                         v-model="form.height"
                         required
                     />
-                    <InputError class="mt-2" :message="form.errors.height" />
+                    <InputError class="mt-2" :message="errors.height" />
                 </div>
             </div>
 
@@ -100,7 +128,7 @@ const cancel = () => {
                         class="w-full"
                         required
                     />
-                    <InputError class="mt-2" :message="form.errors.gender" />
+                    <InputError class="mt-2" :message="errors.gender" />
                 </div>
                 <div>
                     <InputLabel for="color" value="Color" />
@@ -109,7 +137,7 @@ const cancel = () => {
                         class="mt-1 block w-full"
                         v-model="form.color"
                     />
-                    <InputError class="mt-2" :message="form.errors.color" />
+                    <InputError class="mt-2" :message="errors.color" />
                 </div>
             </div>
 
@@ -122,7 +150,7 @@ const cancel = () => {
                         :options="friendlinessOptions"
                         class="w-full"
                     />
-                    <InputError class="mt-2" :message="form.errors.friendliness" />
+                    <InputError class="mt-2" :message="errors.friendliness" />
                 </div>
                 <div>
                     <InputLabel for="birthday" value="Birthday" required />
@@ -133,7 +161,7 @@ const cancel = () => {
                         v-model="form.birthday"
                         required
                     />
-                    <InputError class="mt-2" :message="form.errors.birthday" />
+                    <InputError class="mt-2" :message="errors.birthday" />
                 </div>
             </div>
 

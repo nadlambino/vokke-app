@@ -19,11 +19,11 @@ class CreateKangaroo extends FormRequest
         return [
             'name' => ['required', 'string', 'max:255'],
             'nickname' => ['sometimes', 'nullable', 'string', 'max:255'],
-            'weight' => ['required', 'decimal:2', 'gt:0'],
-            'height' => ['required', 'decimal:2', 'gt:0'],
-            'gender' => ['required', 'in:' . implode(',', Gender::cases())],
+            'weight' => ['required', 'decimal:0,2', 'gt:0'],
+            'height' => ['required', 'decimal:0,2', 'gt:0'],
+            'gender' => ['required', 'in:' . implode(',', Gender::toArray())],
             'color' => ['sometimes', 'nullable', 'string', 'max:255'],
-            'friendliness' => ['sometimes', 'nullable', 'in:' . implode(',', Friendliness::cases())],
+            'friendliness' => ['sometimes', 'nullable', 'in:' . implode(',', Friendliness::toArray())],
             'birthday' => ['required', 'date', 'before:tomorrow'],
         ];
     }
