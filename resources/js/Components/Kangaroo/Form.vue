@@ -2,12 +2,12 @@
 import InputLabel from '@/Components/InputLabel.vue';
 import InputError from '@/Components/InputError.vue';
 import TextInput from '@/Components/TextInput.vue';
-import { useForm } from '@inertiajs/vue3';
 import Select from '@/Components/Select.vue';
 import PrimaryButton from '../PrimaryButton.vue';
-import useKangarooApi from '@/utils/kangaroo';
-import { Kangaroo } from '@/utils/kangaroo/types';
+import { useForm } from '@inertiajs/vue3';
 import { reactive } from 'vue';
+import { Kangaroo } from '@/types';
+import useKangarooApi from '@/utils/kangaroo';
 
 const emits = defineEmits(['close']);
 const { create } = useKangarooApi();

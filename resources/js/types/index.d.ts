@@ -12,3 +12,17 @@ export type PageProps<T extends Record<string, unknown> = Record<string, unknown
         user: User;
     };
 };
+
+export interface Kangaroo {
+    id?: number,
+    name?: string,
+    nickname?: string,
+    weight?: number,
+    height?: number,
+    gender?: Gender,
+    color?: string,
+    friendliness?: Friendliness,
+    birthday?: string | Date,
+}
+
+export type Friendliness = 'friendly' | 'independent';

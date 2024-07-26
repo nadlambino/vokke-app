@@ -1,5 +1,4 @@
-import { Kangaroo } from "./types"
-
+import { Kangaroo } from "@/types"
 
 export default function useKangarooApi() {
     const create = async (data: Kangaroo) => {
