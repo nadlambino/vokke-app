@@ -6,10 +6,11 @@ use App\Enums\Gender;
 use App\Enums\PetType;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use NadLambino\Uploadable\Concerns\Uploadable;
 
 class Pet extends Model
 {
-    use HasFactory;
+    use HasFactory, Uploadable;
 
     protected $fillable = [
         'type',
@@ -17,7 +18,10 @@ class Pet extends Model
         'nickname',
         'weight',
         'height',
-        'gender'
+        'gender',
+        'color',
+        'friendliness',
+        'birthday'
     ];
 
     protected function casts()
