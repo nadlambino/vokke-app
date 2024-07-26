@@ -8,9 +8,11 @@ import { useForm } from '@inertiajs/vue3';
 import { reactive } from 'vue';
 import { Kangaroo } from '@/types';
 import useKangarooApi from '@/utils/kangaroo';
+import { useToast } from 'primevue/usetoast';
 
 const emits = defineEmits(['close']);
 const { create } = useKangarooApi();
+const toast = useToast();
 const form = useForm<Kangaroo>({
     name: '',
     nickname: '',
@@ -51,14 +53,14 @@ const submit = () => {
     create(form.data())
         .then(() => {
             form.reset();
-            alert('Kangaroo created successfully');
+            toast.add({ severity: 'success', summary: 'Success', detail: 'Kangaroo created successfully', life: 3000 });
         })
         .catch((error) => {
             if (error.response.status === 422) {
                 Object.assign(errors, error.response.data.errors);
             }
 
-            alert('Failed to create kangaroo');
+            toast.add({ severity: 'error', summary: 'Error', detail: 'Kangaroo creation failed', life: 3000 });
         });
 }
 </script>
