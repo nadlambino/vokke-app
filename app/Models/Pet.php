@@ -28,7 +28,10 @@ class Pet extends Model
     {
         return [
             'type' => PetType::class,
-            'gender' => Gender::class
+            'gender' => Gender::class,
+            'birthday' => 'date',
+            'created_at' => 'datetime',
+            'updated_at' => 'datetime',
         ];
     }
 }
