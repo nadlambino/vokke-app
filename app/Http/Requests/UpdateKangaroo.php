@@ -24,7 +24,7 @@ class UpdateKangaroo extends FormRequest
             'gender' => ['sometimes', 'in:' . implode(',', Gender::toArray())],
             'color' => ['sometimes', 'nullable', 'string', 'max:255'],
             'friendliness' => ['sometimes', 'nullable', 'in:' . implode(',', Friendliness::toArray())],
-            'birthday' => ['sometimes', 'date', 'before:tomorrow'],
+            'birthday' => ['sometimes', 'date', 'beforeOrEqual:today'],
         ];
     }
 }

@@ -24,7 +24,7 @@ class CreateKangaroo extends FormRequest
             'gender' => ['required', 'in:' . implode(',', Gender::toArray())],
             'color' => ['sometimes', 'nullable', 'string', 'max:255'],
             'friendliness' => ['sometimes', 'nullable', 'in:' . implode(',', Friendliness::toArray())],
-            'birthday' => ['required', 'date', 'before:tomorrow'],
+            'birthday' => ['required', 'date', 'beforeOrEqual:today'],
         ];
     }
 
