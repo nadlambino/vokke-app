@@ -5,13 +5,15 @@ namespace App\Http\Requests;
 use App\Enums\Friendliness;
 use App\Enums\Gender;
 use App\Enums\PetType;
+use App\Models\Pet;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Gate;
 
 class CreateKangaroo extends FormRequest
 {
     public function authorize(): bool
     {
-        return auth()->check();
+        return Gate::allows('create', Pet::class);
     }
 
     public function rules(): array

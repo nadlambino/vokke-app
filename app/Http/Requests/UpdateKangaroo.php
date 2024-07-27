@@ -6,12 +6,13 @@ use App\Enums\Friendliness;
 use App\Enums\Gender;
 use App\Enums\PetType;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Gate;
 
 class UpdateKangaroo extends FormRequest
 {
     public function authorize(): bool
     {
-        return auth()->check();
+        return Gate::allows('update', $this->route('kangaroo'));
     }
 
     public function rules(): array

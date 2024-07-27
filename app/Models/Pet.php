@@ -7,6 +7,7 @@ use App\Enums\PetType;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use NadLambino\Uploadable\Concerns\Uploadable;
 
 class Pet extends Model
@@ -34,6 +35,11 @@ class Pet extends Model
             'created_at' => 'datetime',
             'updated_at' => 'datetime',
         ];
+    }
+
+    public function user(): BelongsTo
+    {
+        return $this->belongsTo(User::class);
     }
 
     public function scopeKangaroos(Builder $query)
