@@ -30,10 +30,10 @@ const columnsWithActions = computed(() => {
         {
             cellTemplate: function(container, options) {
                 $("<div class='flex gap-2 h-10'>")
-                    .append($("<button class='flex justify-center items-center bg-gray-800 px-2 py-1 rounded text-white hover:bg-gray-800/90 min-w-16'>")
+                    .append($("<button class='flex justify-center items-center bg-gray-800 px-2 py-1 rounded-md text-white hover:bg-gray-800/90 min-w-16'>")
                         .text("Edit")
                         .on("click", () => emits('edit', options.data)))
-                    .append($("<button class='flex justify-center items-center bg-red-500 rounded px-2 py-1 text-white hover:bg-red-500/90 min-w-16'>")
+                    .append($("<button class='flex justify-center items-center bg-red-500 rounded-md px-2 py-1 text-white hover:bg-red-500/90 min-w-16'>")
                         .text("Delete")
                         .on("click", () => emits('delete', options.data)))
                     .appendTo(container);
