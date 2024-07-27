@@ -15,7 +15,7 @@ use Spatie\QueryBuilder\QueryBuilder;
 
 class KangarooController extends Controller
 {
-    public function index(Request $request)
+    public function index()
     {
         $kangaroos = QueryBuilder::for(Pet::query()->kangaroos())
             ->allowedFilters([
