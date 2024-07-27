@@ -7,8 +7,6 @@ import { computed, ref } from "vue";
 export default function useKangarooApi() {
     const search = ref('');
     const debouncedSearch = useDebounce(search, 500);
-    const page = ref(1);
-    const perPage = ref(10);
 
     const get = () => {
         return window.axios.get<ApiResponse<Kangaroo[]>>(route('api.kangaroos.index'), {
@@ -16,14 +14,12 @@ export default function useKangarooApi() {
                 filter: {
                     search: debouncedSearch.value,
                 },
-                page: page.value,
-                perPage: perPage.value,
             }
         })
     }
 
-    const { isPending, isFetching, isError, data, error } = useQuery({
-        queryKey: ['kangaroos', { debouncedSearch, page, perPage }],
+    const { isPending, isFetching, isError, data, error, refetch } = useQuery({
+        queryKey: ['kangaroos', { debouncedSearch }],
         queryFn: get,
     });
 
@@ -38,12 +34,23 @@ export default function useKangarooApi() {
         })
     }
 
+    const update = async (id: number, data: Kangaroo) => {
+        return await window.axios.post(route('api.kangaroos.update', id), {
+            ...data,
+            _method: 'PUT'
+        }, {
+            headers: {
+                'Content-Type': 'multipart/form-data',
+            }
+        })
+    }
+
     return {
         search,
-        perPage,
-        page,
         kangaroos,
         total,
-        create
+        create,
+        update,
+        refetch
     }
 }

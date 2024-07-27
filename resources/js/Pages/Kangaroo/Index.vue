@@ -5,20 +5,31 @@ import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import { Head } from '@inertiajs/vue3';
 import Form from '@/Components/Kangaroo/Form.vue';
 import { ref } from 'vue';
-import DxTable from '@/Components/DxTable.vue';
+import DxTable from '@/Components/Kangaroo/DxTable.vue';
 import useKangarooApi from '@/utils/kangaroo';
+import { Kangaroo } from '@/types';
 
 const showForm = ref(false);
+const kangaroo = ref<Kangaroo | null>(null);
 
 const { kangaroos } = useKangarooApi();
 const columns = ['name', 'weight', 'height', 'gender', 'friendliness', 'birthday'];
+
+const handleEdit = (data: Kangaroo) => {
+    showForm.value = true;
+    kangaroo.value = data;
+};
+
+const handleDelete = (data: Kangaroo) => {
+    console.log(data);
+};
 </script>
 
 <template>
     <Head title="Kangaroo" />
 
     <Modal :show="showForm">
-        <Form @close="showForm = false"/>
+        <Form @close="showForm = false" :data="kangaroo" />
     </Modal>
 
     <AuthenticatedLayout>
@@ -32,7 +43,7 @@ const columns = ['name', 'weight', 'height', 'gender', 'friendliness', 'birthday
         <div class="py-12">
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
                 <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                    <DxTable table-id="kangaroos-table" :data="kangaroos" :columns="columns"/>
+                    <DxTable table-id="kangaroos-table" :data="kangaroos" :columns="columns" @edit="handleEdit" @delete="handleDelete" />
                 </div>
             </div>
         </div>

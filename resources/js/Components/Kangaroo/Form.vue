@@ -5,25 +5,30 @@ import TextInput from '@/Components/TextInput.vue';
 import Select from '@/Components/Select.vue';
 import PrimaryButton from '../PrimaryButton.vue';
 import { useForm } from '@inertiajs/vue3';
-import { reactive, ref } from 'vue';
+import { computed, reactive, ref } from 'vue';
 import { Kangaroo } from '@/types';
 import useKangarooApi from '@/utils/kangaroo';
 import { useToast } from 'primevue/usetoast';
 import Confirm from '@/Components/Confirm.vue';
 import FileUpload from '@/Components/FileUpload/FileUpload.vue';
+import { AxiosError } from 'axios';
 
+const props = defineProps<{
+    data?: Kangaroo|null;
+}>();
+const isCreate = computed(() => !props.data);
 const emits = defineEmits(['close']);
-const { create } = useKangarooApi();
+const { create, update, refetch } = useKangarooApi();
 const toast = useToast();
 const form = useForm<Kangaroo & { images: FileList|null }>({
-    name: '',
-    nickname: '',
-    weight: undefined,
-    height: undefined,
-    gender: undefined,
-    color: '',
-    friendliness: undefined,
-    birthday: '',
+    name: props.data?.name ?? '',
+    nickname: props.data?.nickname ?? '',
+    weight: props.data?.weight ?? undefined,
+    height: props.data?.height ?? undefined,
+    gender: props.data?.gender ?? undefined,
+    color: props.data?.color ?? '',
+    friendliness: props.data?.friendliness ?? undefined,
+    birthday: props.data?.birthday ?? '',
     images: null,
 });
 const errors = reactive<{
@@ -56,19 +61,30 @@ const cancel = () => {
 };
 
 const submit = () => {
-    create(form.data())
-        .then(() => {
-            form.reset();
-            emits('close');
-            toast.add({ severity: 'success', summary: 'Success', detail: 'Kangaroo created successfully', life: 3000 });
-        })
-        .catch((error) => {
-            if (error.response.status === 422) {
-                Object.assign(errors, error.response.data.errors);
-            }
+    if (isCreate.value) {
+        create(form.data())
+            .then(() => handleSuccessfulRequest('Kangaroo was created successfully'))
+            .catch((error: AxiosError) => handleFailedRequest('Kangaroo creation failed', error))
+            .finally(() => refetch());
+    } else {
+        update(props.data?.id as number, form.data())
+            .then(() => handleSuccessfulRequest('Kangaroo was updated successfully'))
+            .catch((error) => handleFailedRequest('Kangaroo update failed', error))
+            .finally(() => refetch());
+    }
+}
 
-            toast.add({ severity: 'error', summary: 'Error', detail: 'Kangaroo creation failed', life: 3000 });
-        });
+const handleSuccessfulRequest = (message: string) => {
+    form.reset();
+    emits('close');
+    toast.add({ severity: 'success', summary: 'Success', detail: message, life: 3000 });
+}
+
+const handleFailedRequest = (message: string, error: any) => {
+    if (error.response?.status === 422) {
+        Object.assign(errors, error.response.data.errors);
+    }
+    toast.add({ severity: 'error', summary: 'Error', detail: message, life: 3000 });
 }
 </script>
 

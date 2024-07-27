@@ -21,13 +21,10 @@ class KangarooController extends Controller
             ->allowedFilters([
                 AllowedFilter::custom('search', new SearchFilter),
             ])
-            ->paginate($request->get('per_page', 10));
+            ->latest()
+            ->get();
 
-        return $this->success(PetResource::collection($kangaroos), [
-            'current_page' => $kangaroos->currentPage(),
-            'total_pages' => $kangaroos->lastPage(),
-            'total_count' => $kangaroos->total(),
-        ]);
+        return $this->success(PetResource::collection($kangaroos));
     }
 
     public function store(CreateKangaroo $request)
