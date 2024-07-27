@@ -21,6 +21,7 @@ class KangarooController extends Controller
             ->allowedFilters([
                 AllowedFilter::custom('search', new SearchFilter),
             ])
+            ->with('image')
             ->latest()
             ->get();
 
