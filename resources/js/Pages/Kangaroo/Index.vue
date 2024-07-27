@@ -9,6 +9,7 @@ import DxTable from '@/Components/Kangaroo/DxTable.vue';
 import useKangarooApi from '@/utils/kangaroo';
 import { Kangaroo } from '@/types';
 import { useToast } from 'primevue/usetoast';
+import Confirm from '@/Components/Confirm.vue';
 
 const toast = useToast();
 const showForm = ref(false);
@@ -21,10 +22,17 @@ const handleEdit = (data: Kangaroo) => {
     kangaroo.value = data;
 };
 
-const handleDelete = async (data: Kangaroo) => {
-    await destroy(data.id as number)
+const showConfirm = ref(false);
+const handleDelete = (data: Kangaroo) => {
+    kangaroo.value = data;
+    showConfirm.value = true;
+};
+const proceedDelete = async () => {
+    await destroy(kangaroo.value?.id as number)
         .then(() => {
             toast.add({ severity: 'success', summary: 'Success', detail: 'Kangaroo was deleted successfully', life: 3000 });
+            showConfirm.value = false;
+            kangaroo.value = null;
             refetch();
         })
         .catch(() => {
@@ -37,8 +45,10 @@ const handleDelete = async (data: Kangaroo) => {
     <Head title="Kangaroo" />
 
     <Modal :show="showForm">
-        <Form @close="showForm = false" :data="kangaroo" />
+        <Form @close="showForm = false; kangaroo = null" :data="kangaroo" />
     </Modal>
+
+    <Confirm v-model="showConfirm" message="Are you sure you want to delete this kangaroo?" @proceed="proceedDelete" />
 
     <AuthenticatedLayout>
         <template #header>
