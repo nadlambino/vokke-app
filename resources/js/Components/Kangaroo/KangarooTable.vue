@@ -15,6 +15,7 @@ const columns = [
     {
         dataField: 'image_url',
         caption: 'Image',
+        width: 100,
         cellTemplate: function(container: any, options: any) {
             $("<img class='rounded-full'>")
                 .attr("src", options.value || 'https://via.placeholder.com/50')

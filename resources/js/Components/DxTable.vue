@@ -1,4 +1,5 @@
 <script setup>
+import { useWindowSize } from '@vueuse/core';
 import { computed, nextTick, onMounted, ref, watch } from 'vue';
 
 const emits = defineEmits(['edit', 'delete']);
@@ -21,16 +22,18 @@ const props = defineProps({
     }
 });
 
+const { width } = useWindowSize();
+const isLargeDesktop = computed(() => width.value > 1280);
 const columnsWithActions = computed(() => {
     return [
         ...props.columns,
         {
             cellTemplate: function(container, options) {
                 $("<div class='flex gap-2 h-10'>")
-                    .append($("<button class='flex justify-center items-center bg-gray-800 px-2 py-1 rounded text-white hover:bg-gray-800/90 min-w-20'>")
+                    .append($("<button class='flex justify-center items-center bg-gray-800 px-2 py-1 rounded text-white hover:bg-gray-800/90 min-w-16'>")
                         .text("Edit")
                         .on("click", () => emits('edit', options.data)))
-                    .append($("<button class='flex justify-center items-center bg-red-500 rounded px-2 py-1 text-white hover:bg-red-500/90 min-w-20'>")
+                    .append($("<button class='flex justify-center items-center bg-red-500 rounded px-2 py-1 text-white hover:bg-red-500/90 min-w-16'>")
                         .text("Delete")
                         .on("click", () => emits('delete', options.data)))
                     .appendTo(container);
@@ -50,7 +53,7 @@ const initializeTable = () => {
         dataSource: props.data,
         keyExpr: props.keyExpr,
         columns: columnsWithActions.value,
-        columnHidingEnabled: true,
+        columnHidingEnabled: !isLargeDesktop.value,
         paging: {
             pageSize: 5
         },
@@ -71,6 +74,7 @@ const loadTable = () => {
     }, 100);
 }
 watch(() => props.data, loadTable);
+watch(width, loadTable);
 onMounted(loadTable);
 nextTick(loadTable);
 </script>
