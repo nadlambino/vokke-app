@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Enums\Gender;
 use App\Enums\PetType;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use NadLambino\Uploadable\Concerns\Uploadable;
@@ -33,5 +34,10 @@ class Pet extends Model
             'created_at' => 'datetime',
             'updated_at' => 'datetime',
         ];
+    }
+
+    public function scopeKangaroos(Builder $query)
+    {
+        return $query->where('type', PetType::Kangaroo);
     }
 }
