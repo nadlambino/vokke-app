@@ -8,11 +8,12 @@ import { ref } from 'vue';
 import DxTable from '@/Components/Kangaroo/DxTable.vue';
 import useKangarooApi from '@/utils/kangaroo';
 import { Kangaroo } from '@/types';
+import { useToast } from 'primevue/usetoast';
 
+const toast = useToast();
 const showForm = ref(false);
 const kangaroo = ref<Kangaroo | null>(null);
-
-const { kangaroos } = useKangarooApi();
+const { kangaroos, destroy, refetch } = useKangarooApi();
 const columns = ['name', 'weight', 'height', 'gender', 'friendliness', 'birthday'];
 
 const handleEdit = (data: Kangaroo) => {
@@ -20,8 +21,15 @@ const handleEdit = (data: Kangaroo) => {
     kangaroo.value = data;
 };
 
-const handleDelete = (data: Kangaroo) => {
-    console.log(data);
+const handleDelete = async (data: Kangaroo) => {
+    await destroy(data.id as number)
+        .then(() => {
+            toast.add({ severity: 'success', summary: 'Success', detail: 'Kangaroo was deleted successfully', life: 3000 });
+            refetch();
+        })
+        .catch(() => {
+            toast.add({ severity: 'error', summary: 'Error', detail: 'Failed to delete the kangaroo', life: 3000 });
+        });
 };
 </script>
 
@@ -43,7 +51,13 @@ const handleDelete = (data: Kangaroo) => {
         <div class="py-12">
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
                 <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                    <DxTable table-id="kangaroos-table" :data="kangaroos" :columns="columns" @edit="handleEdit" @delete="handleDelete" />
+                    <DxTable
+                        table-id="kangaroos-table"
+                        :data="kangaroos"
+                        :columns="columns"
+                        @edit="handleEdit"
+                        @delete="handleDelete"
+                    />
                 </div>
             </div>
         </div>

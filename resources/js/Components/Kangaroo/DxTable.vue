@@ -40,9 +40,9 @@ const columnsWithActions = computed(() => {
     ];
 });
 
-const loadTable = () => {
+const initializeTable = () => {
     if (typeof window.$ === 'undefined' || typeof window.$.fn.dxDataGrid === 'undefined') {
-        return;
+        return false;
     }
 
     window.$(`#${props.tableId}`)?.dxDataGrid({
@@ -58,8 +58,15 @@ const loadTable = () => {
             showInfo: true
         }
     });
+
+    return true;
 }
 
+const loadTable = () => {
+    const interval = setInterval(() => {
+        if (initializeTable()) clearInterval(interval);
+    }, 100);
+}
 watch(() => props.data, loadTable);
 onMounted(loadTable);
 nextTick(loadTable);

@@ -18,11 +18,10 @@ export default function useKangarooApi() {
         })
     }
 
-    const { isPending, isFetching, isError, data, error, refetch } = useQuery({
+    const { data, refetch } = useQuery({
         queryKey: ['kangaroos', { debouncedSearch }],
         queryFn: get,
     });
-
     const kangaroos = computed<Kangaroo[]>(() => data.value?.data.data || [])
     const total = computed<number>(() => data.value?.data.metadata.total_count || 0)
 
@@ -45,12 +44,17 @@ export default function useKangarooApi() {
         })
     }
 
+    const destroy = async (id: number) => {
+        return await window.axios.delete(route('api.kangaroos.destroy', id))
+    }
+
     return {
         search,
         kangaroos,
         total,
+        refetch,
         create,
         update,
-        refetch
+        destroy,
     }
 }
