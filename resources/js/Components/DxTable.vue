@@ -25,13 +25,12 @@ const columnsWithActions = computed(() => {
     return [
         ...props.columns,
         {
-            caption: "Actions",
             cellTemplate: function(container, options) {
-                $("<div class='flex gap-2'>")
-                    .append($("<button class='bg-gray-800 px-2 py-1 rounded text-white hover:bg-gray-800/90'>")
+                $("<div class='flex gap-2 h-10'>")
+                    .append($("<button class='flex justify-center items-center bg-gray-800 px-2 py-1 rounded text-white hover:bg-gray-800/90 min-w-20'>")
                         .text("Edit")
                         .on("click", () => emits('edit', options.data)))
-                    .append($("<button class='bg-red-500 rounded px-2 py-1 text-white hover:bg-red-500/90'>")
+                    .append($("<button class='flex justify-center items-center bg-red-500 rounded px-2 py-1 text-white hover:bg-red-500/90 min-w-20'>")
                         .text("Delete")
                         .on("click", () => emits('delete', options.data)))
                     .appendTo(container);
@@ -51,6 +50,7 @@ const initializeTable = () => {
         dataSource: props.data,
         keyExpr: props.keyExpr,
         columns: columnsWithActions.value,
+        columnHidingEnabled: true,
         paging: {
             pageSize: 5
         },

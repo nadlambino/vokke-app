@@ -34,7 +34,7 @@ const columns = [
     {
         dataField: 'gender',
         cellTemplate: function(container: any, options: any) {
-            $("<div class='capitalize'>")
+            $("<div class='capitalize px-4'>")
                 .text(options.value)
                 .appendTo(container);
         }
@@ -42,7 +42,7 @@ const columns = [
     {
         dataField: 'friendliness',
         cellTemplate: function(container: any, options: any) {
-            $("<div class='capitalize'>")
+            $("<div class='capitalize px-4'>")
                 .text(options.value)
                 .appendTo(container);
         }
