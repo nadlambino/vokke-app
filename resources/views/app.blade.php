@@ -14,6 +14,9 @@
         @routes
         @vite(['resources/js/app.ts', "resources/js/Pages/{$page['component']}.vue"])
         @inertiaHead
+
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/devextreme-dist/24.1.4/css/dx.carmine.compact.css" rel="stylesheet">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/devextreme-dist/24.1.4/js/dx.all.js"></script>
     </head>
     <body class="font-sans antialiased">
         @inertia
