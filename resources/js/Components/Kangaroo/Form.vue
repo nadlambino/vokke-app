@@ -134,7 +134,7 @@ const submit = () => {
                         id="gender"
                         v-model="form.gender"
                         :options="genderOptions"
-                        class="w-full"
+                        class="mt-1 block w-full"
                         required
                     />
                     <InputError class="mt-2" :message="errors.gender" />
@@ -157,7 +157,7 @@ const submit = () => {
                         id="friendliness"
                         v-model="form.friendliness"
                         :options="friendlinessOptions"
-                        class="w-full"
+                        class="mt-1 block w-full"
                     />
                     <InputError class="mt-2" :message="errors.friendliness" />
                 </div>
@@ -176,7 +176,13 @@ const submit = () => {
 
             <div>
                 <InputLabel for="images" value="Images" />
-                <FileUpload id="images" multiple accept="image/*" v-model="form.images" />
+                <FileUpload
+                    class="mt-1 block w-full"
+                    id="images"
+                    multiple
+                    accept="image/*"
+                    v-model="form.images"
+                />
             </div>
 
             <div class="w-full flex flex-col md:flex-row md:justify-end gap-2">

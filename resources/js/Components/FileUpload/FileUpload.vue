@@ -52,24 +52,22 @@ const handleFileRemove = (index: number) => {
 </script>
 
 <template>
-    <div class="flex justify-center gap-5">
-        <div class="flex gap-3 flex-wrap">
-            <div class="h-auto flex items-center">
-                <PrimaryButton class="!text-[10px] !w-24 !px-2" type="button" @click="chooseFile">
-                    <i class="pi pi-plus pr-2" />
-                    <span>Browse</span>
-                </PrimaryButton>
-                <input ref="fileInput" type="file" class="hidden" @change="handleFileSelect" :accept :multiple />
-            </div>
-            <template v-for="(file, index) in displayFiles">
-                <div class="flex flex-col items-center">
-                    <img v-if="file.is_image" :src="file.url" class="w-24 h-24 object-cover border shadow" />
-                    <div v-else class="w-24 h-24 flex items-center justify-center border shadow">
-                        <i class="pi pi-file !text-5xl text-gray-700" />
-                    </div>
-                    <button type="button" class="mt-2 text-sm text-red-500" @click="() => handleFileRemove(index)">Remove</button>
-                </div>
-            </template>
+    <div class="flex gap-3 flex-wrap">
+        <div class="h-auto flex items-center">
+            <PrimaryButton class="!text-[10px] !w-24 !px-2" type="button" @click="chooseFile">
+                <i class="pi pi-plus pr-2" />
+                <span>Browse</span>
+            </PrimaryButton>
+            <input ref="fileInput" type="file" class="hidden" @change="handleFileSelect" :accept :multiple />
         </div>
+        <template v-for="(file, index) in displayFiles">
+            <div class="flex flex-col items-center">
+                <img v-if="file.is_image" :src="file.url" class="w-24 h-24 object-cover border shadow" />
+                <div v-else class="w-24 h-24 flex items-center justify-center border shadow">
+                    <i class="pi pi-file !text-5xl text-gray-700" />
+                </div>
+                <button type="button" class="mt-2 text-sm text-gray-600 underline" @click="() => handleFileRemove(index)">Remove</button>
+            </div>
+        </template>
     </div>
 </template>
