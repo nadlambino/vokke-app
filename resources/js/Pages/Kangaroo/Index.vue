@@ -15,7 +15,45 @@ const toast = useToast();
 const showForm = ref(false);
 const kangaroo = ref<Kangaroo | null>(null);
 const { kangaroos, destroy, refetch } = useKangarooApi();
-const columns = ['name', 'weight', 'height', 'gender', 'friendliness', 'birthday'];
+const columns = [
+    {
+        dataField: 'image_url',
+        caption: 'Image',
+        cellTemplate: function(container: any, options: any) {
+            $("<img class='rounded-full'>")
+                .attr("src", options.value || 'https://via.placeholder.com/50')
+                .attr("alt", options.data.name)
+                .css("width", "50px")
+                .appendTo(container);
+        }
+    },
+    'name',
+    {
+        dataField: 'weight',
+        caption: 'Weight (kg)',
+    },
+    {
+        dataField: 'height',
+        caption: 'Height (cm)',
+    },
+    {
+        dataField: 'gender',
+        cellTemplate: function(container: any, options: any) {
+            $("<div class='capitalize'>")
+                .text(options.value)
+                .appendTo(container);
+        }
+    },
+    {
+        dataField: 'friendliness',
+        cellTemplate: function(container: any, options: any) {
+            $("<div class='capitalize'>")
+                .text(options.value)
+                .appendTo(container);
+        }
+    },
+    'birthday'
+];
 
 const handleEdit = (data: Kangaroo) => {
     showForm.value = true;
