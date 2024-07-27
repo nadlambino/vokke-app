@@ -54,7 +54,7 @@ return [
     | files are soft deleted, allowing for recovery.
     |
     */
-    'force_delete_uploads' => false,
+    'force_delete_uploads' => true,
 
     /*
     |--------------------------------------------------------------------------

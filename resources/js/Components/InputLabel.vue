@@ -11,6 +11,6 @@ defineProps<{
             {{ value }}
             <span v-if="required" class="text-red-500">*</span>
         </span>
-        <span v-else><slot /></span>
+        <template v-else><slot /></template>
     </label>
 </template>

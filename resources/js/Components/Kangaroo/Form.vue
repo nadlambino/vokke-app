@@ -20,7 +20,7 @@ const isCreate = computed(() => !props.data);
 const emits = defineEmits(['close']);
 const { create, update, refetch } = useKangarooApi();
 const toast = useToast();
-const form = useForm<Kangaroo & { images: FileList|null }>({
+const form = useForm<Kangaroo & { image: File|null }>({
     name: props.data?.name ?? '',
     nickname: props.data?.nickname ?? '',
     weight: props.data?.weight ?? undefined,
@@ -29,7 +29,7 @@ const form = useForm<Kangaroo & { images: FileList|null }>({
     color: props.data?.color ?? '',
     friendliness: props.data?.friendliness ?? undefined,
     birthday: props.data?.birthday ?? '',
-    images: null,
+    image: null,
 });
 const errors = reactive<{
     name?: string[];
@@ -40,7 +40,7 @@ const errors = reactive<{
     color?: string[];
     friendliness?: string[];
     birthday?: string[];
-    images?: string[];
+    image?: string[];
 }>({});
 
 const genderOptions = [
@@ -91,7 +91,7 @@ const handleFailedRequest = (message: string, error: any) => {
 <template>
     <div class="p-4 space-y-3">
         <Confirm v-model="showConfirm" message="Are you sure you want to add this kangaroo?" @proceed="submit" />
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">Form</h2>
+        <h2 class="font-semibold text-xl text-gray-800 leading-tight">{{ isCreate ? 'Add a Kangaroo' : 'Update a Kangaroo' }}</h2>
 
         <form class="space-y-5" @submit.prevent="showConfirm = true">
             <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
@@ -192,15 +192,17 @@ const handleFailedRequest = (message: string, error: any) => {
             </div>
 
             <div>
-                <InputLabel for="images" value="Images" />
+                <InputLabel for="image" class="w-full flex justify-between items-center">
+                    <span>Image</span>
+                    <span v-if="!isCreate" class="!text-xs !text-gray-500">Image will be replace with the new one.</span>
+                </InputLabel>
                 <FileUpload
                     class="mt-1 block w-full"
-                    id="images"
-                    multiple
+                    id="image"
                     accept="image/*"
-                    v-model="form.images"
+                    v-model="form.image"
                 />
-                <InputError class="mt-2" :message="errors.images" />
+                <InputError class="mt-2" :message="errors.image" />
             </div>
 
             <div class="w-full flex flex-col md:flex-row md:justify-end gap-2">
