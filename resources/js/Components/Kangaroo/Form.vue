@@ -35,6 +35,7 @@ const errors = reactive<{
     color?: string[];
     friendliness?: string[];
     birthday?: string[];
+    images?: string[];
 }>({});
 
 const genderOptions = [
@@ -183,6 +184,7 @@ const submit = () => {
                     accept="image/*"
                     v-model="form.images"
                 />
+                <InputError class="mt-2" :message="errors.images" />
             </div>
 
             <div class="w-full flex flex-col md:flex-row md:justify-end gap-2">
