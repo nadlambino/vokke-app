@@ -21,6 +21,9 @@
     },
     "dependencies": {
         "@primevue/themes": "^4.0.1",
+        "@tanstack/vue-query": "^5.51.15",
+        "@types/jquery": "^3.5.30",
+        "@vueuse/core": "^10.11.0",
         "primeicons": "^7.0.0",
         "primevue": "^4.0.1"
     }

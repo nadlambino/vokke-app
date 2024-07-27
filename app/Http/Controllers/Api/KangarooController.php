@@ -7,8 +7,10 @@ use App\Http\Requests\CreateKangaroo;
 use App\Http\Requests\UpdateKangaroo;
 use App\Http\Resources\PetResource;
 use App\Models\Pet;
+use App\QueryBuilders\Kangaroo\SearchFilter;
 use Illuminate\Http\Request;
 use NadLambino\Uploadable\Actions\Upload;
+use Spatie\QueryBuilder\AllowedFilter;
 use Spatie\QueryBuilder\QueryBuilder;
 
 class KangarooController extends Controller
@@ -17,11 +19,7 @@ class KangarooController extends Controller
     {
         $kangaroos = QueryBuilder::for(Pet::query()->kangaroos())
             ->allowedFilters([
-                'name',
-                'nickname',
-                'weight',
-                'height',
-                'color'
+                AllowedFilter::custom('search', new SearchFilter),
             ])
             ->paginate($request->get('per_page', 10));
 

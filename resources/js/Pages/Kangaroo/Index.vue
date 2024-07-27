@@ -5,8 +5,13 @@ import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import { Head } from '@inertiajs/vue3';
 import Form from '@/Components/Kangaroo/Form.vue';
 import { ref } from 'vue';
+import DxTable from '@/Components/DxTable.vue';
+import useKangarooApi from '@/utils/kangaroo';
 
 const showForm = ref(false);
+
+const { kangaroos } = useKangarooApi();
+const columns = ['name', 'weight', 'height', 'gender', 'friendliness', 'birthday'];
 </script>
 
 <template>
@@ -27,7 +32,7 @@ const showForm = ref(false);
         <div class="py-12">
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
                 <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                    <div class="p-6 text-gray-900">You're logged in!</div>
+                    <DxTable table-id="kangaroos-table" :data="kangaroos" :columns="columns"/>
                 </div>
             </div>
         </div>

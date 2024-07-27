@@ -10,7 +10,7 @@ import ToastService from 'primevue/toastservice';
 import ConfirmationService from 'primevue/confirmationservice';
 import Aura from '@primevue/themes/aura';
 import 'primeicons/primeicons.css'
-
+import { VueQueryPlugin } from '@tanstack/vue-query'
 
 const appName = import.meta.env.VITE_APP_NAME || 'Laravel';
 
@@ -46,6 +46,7 @@ createInertiaApp({
             })
             .use(ToastService)
             .use(ConfirmationService)
+            .use(VueQueryPlugin)
             .mount(el);
     },
     progress: {

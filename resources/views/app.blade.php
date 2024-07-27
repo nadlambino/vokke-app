@@ -15,10 +15,11 @@
         @vite(['resources/js/app.ts', "resources/js/Pages/{$page['component']}.vue"])
         @inertiaHead
 
-        <link href="https://cdnjs.cloudflare.com/ajax/libs/devextreme-dist/24.1.4/css/dx.carmine.compact.css" rel="stylesheet">
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/devextreme-dist/24.1.4/js/dx.all.js"></script>
+        <script src="https://code.jquery.com/jquery-3.7.1.slim.min.js" integrity="sha256-kmHvs0B+OpCW5GVHUNjv9rOmY0IvSIRcf7zGUDTDQM8=" crossorigin="anonymous" defer></script>
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/devextreme-dist/24.1.4/css/dx.material.teal.light.css" rel="stylesheet">
     </head>
     <body class="font-sans antialiased">
         @inertia
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/devextreme-dist/24.1.4/js/dx.all.js" defer></script>
     </body>
 </html>

@@ -1,3 +1,5 @@
+import { metadata } from "@vueuse/core/metadata.cjs";
+
 export interface User {
     id: number;
     name: string;
@@ -26,3 +28,12 @@ export interface Kangaroo {
 }
 
 export type Friendliness = 'friendly' | 'independent';
+
+export interface ApiResponse<T> {
+    data: T;
+    metadata: {
+        current_page: number;
+        total_pages: number;
+        total_count: number;
+    }
+}
