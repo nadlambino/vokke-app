@@ -1,5 +1,5 @@
 <script setup>
-import { computed, nextTick, onMounted, watch } from 'vue';
+import { computed, nextTick, onMounted, ref, watch } from 'vue';
 
 const emits = defineEmits(['edit', 'delete']);
 const props = defineProps({
@@ -40,7 +40,9 @@ const columnsWithActions = computed(() => {
     ];
 });
 
+const isLoading = ref(true);
 const initializeTable = () => {
+    isLoading.value = true;
     if (typeof window.$ === 'undefined' || typeof window.$.fn.dxDataGrid === 'undefined') {
         return false;
     }
@@ -59,12 +61,13 @@ const initializeTable = () => {
         }
     });
 
-    return true;
+    isLoading.value = false;
 }
 
 const loadTable = () => {
     const interval = setInterval(() => {
-        if (initializeTable()) clearInterval(interval);
+        initializeTable();
+        if (!isLoading.value) clearInterval(interval);
     }, 100);
 }
 watch(() => props.data, loadTable);
@@ -74,6 +77,21 @@ nextTick(loadTable);
 
 <template>
     <div class="p-4">
-        <div :id="tableId"></div>
+        <div v-if="isLoading" class="flex justify-center items-center h-64">
+            <i class="pi pi-spin pi-spinner !text-4xl text-gray-700"></i>
+        </div>
+        <div v-else :id="tableId" class="dx-table"></div>
     </div>
 </template>
+
+<style scoped lang="scss">
+.dx-table {
+    :deep(.dx-datagrid) {
+        .dx-datagrid-pager {
+            .dx-selection {
+                @apply bg-gray-800 text-white;
+            }
+        }
+    }
+}
+</style>
