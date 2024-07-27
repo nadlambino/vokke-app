@@ -90,7 +90,15 @@ const handleFailedRequest = (message: string, error: any) => {
 
 <template>
     <div class="p-4 space-y-3">
-        <Confirm v-model="showConfirm" message="Are you sure you want to add this kangaroo?" @proceed="submit" />
+        <Confirm
+            group="form-confirm"
+            id="form-confirm"
+            key="form-confirm"
+            v-model="showConfirm"
+            message="Are you sure you want to add this kangaroo?"
+            @proceed="submit"
+        />
+
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">{{ isCreate ? 'Add a Kangaroo' : 'Update a Kangaroo' }}</h2>
 
         <form class="space-y-5" @submit.prevent="showConfirm = true">

@@ -48,7 +48,6 @@ const proceedDelete = async () => {
         <Form @close="showForm = false; kangaroo = null" :data="kangaroo" />
     </Modal>
 
-    <Confirm v-model="showConfirm" message="Are you sure you want to delete this kangaroo?" @proceed="proceedDelete" />
 
     <AuthenticatedLayout>
         <template #header>
@@ -57,6 +56,15 @@ const proceedDelete = async () => {
                 <PrimaryButton @click="showForm = true">Add a Kangaroo</PrimaryButton>
             </div>
         </template>
+
+        <Confirm
+            group="delete-confirm"
+            id="delete-confirm"
+            key="delete-confirm"
+            v-model="showConfirm"
+            message="Are you sure you want to delete this kangaroo?"
+            @proceed="proceedDelete"
+        />
 
         <div class="py-12">
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">

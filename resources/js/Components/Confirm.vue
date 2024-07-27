@@ -9,6 +9,7 @@ const props = withDefaults(defineProps<{
     message?: string;
     header?: string;
     icon?: string;
+    group: string;
 }>(), {
     message: 'Are you sure you want to proceed?',
     header: 'Confirmation',
@@ -18,7 +19,9 @@ const confirm = useConfirm();
 const show = defineModel({ default: false });
 watch(show, (value) => {
     if (value) {
-        confirm.require({});
+        confirm.require({
+            group: props.group,
+        });
     } else {
         confirm.close();
     }
@@ -36,7 +39,7 @@ const proceed = () => {
 </script>
 
 <template>
-    <ConfirmDialog>
+    <ConfirmDialog :group="group">
         <template #container>
             <div class="flex flex-col items-center p-8 bg-surface-0 dark:bg-surface-900 rounded">
                 <div class="rounded-full bg-gray-800 text-white inline-flex justify-center items-center h-24 w-24 -mt-20">
