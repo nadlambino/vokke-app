@@ -5,11 +5,12 @@ import { useToast } from 'primevue/usetoast';
 import DxTable from '@/Components/DxTable.vue';
 import useKangarooApi from '@/utils/kangaroo';
 import Confirm from '@/Components/Confirm.vue';
+import TextInput from '../TextInput.vue';
 
 const emits = defineEmits(['edit']);
 const toast = useToast();
 const kangaroo = ref<Kangaroo | null>(null);
-const { kangaroos, destroy, refetch } = useKangarooApi();
+const { kangaroos, destroy, refetch, search } = useKangarooApi();
 const columns = [
     {
         dataField: 'image_url',
@@ -34,7 +35,7 @@ const columns = [
     {
         dataField: 'gender',
         cellTemplate: function(container: any, options: any) {
-            $("<div class='capitalize px-4'>")
+            $("<div class='capitalize px-4 md:px-0'>")
                 .text(options.value)
                 .appendTo(container);
         }
@@ -42,7 +43,7 @@ const columns = [
     {
         dataField: 'friendliness',
         cellTemplate: function(container: any, options: any) {
-            $("<div class='capitalize px-4'>")
+            $("<div class='capitalize px-4 md:px-0'>")
                 .text(options.value)
                 .appendTo(container);
         }
@@ -79,11 +80,21 @@ const proceedDelete = async () => {
         @proceed="proceedDelete"
     />
 
-    <DxTable
-        table-id="kangaroos-table"
-        :data="kangaroos"
-        :columns="columns"
-        @edit="(data) => $emit('edit', data)"
-        @delete="handleDelete"
-    />
+    <div class="flex justify-end items-center p-4">
+        <TextInput
+            v-model="search"
+            placeholder="Search kangaroo..."
+            class="w-96"
+        />
+    </div>
+
+    <KeepAlive>
+        <DxTable
+            table-id="kangaroos-table"
+            :data="kangaroos"
+            :columns="columns"
+            @edit="(data) => $emit('edit', data)"
+            @delete="handleDelete"
+        />
+    </KeepAlive>
 </template>

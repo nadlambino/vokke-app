@@ -16,7 +16,7 @@
         @inertiaHead
 
         <script src="https://code.jquery.com/jquery-3.7.1.slim.min.js" integrity="sha256-kmHvs0B+OpCW5GVHUNjv9rOmY0IvSIRcf7zGUDTDQM8=" crossorigin="anonymous" defer></script>
-        <link href="https://cdnjs.cloudflare.com/ajax/libs/devextreme-dist/24.1.4/css/dx.material.teal.light.css" rel="stylesheet">
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/devextreme-dist/24.1.4/css/dx.material.blue.light.css" rel="stylesheet">
     </head>
     <body class="font-sans antialiased">
         @inertia

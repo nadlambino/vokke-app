@@ -43,7 +43,7 @@ const isLoading = ref(true);
 const initializeTable = () => {
     isLoading.value = true;
     if (typeof window.$ === 'undefined' || typeof window.$.fn.dxDataGrid === 'undefined') {
-        return false;
+        return;
     }
 
     window.$(`#${props.tableId}`)?.dxDataGrid({
