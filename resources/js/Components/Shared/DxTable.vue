@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { useWindowSize } from '@vueuse/core';
+import { useDebounce, useWindowSize } from '@vueuse/core';
 import { computed, nextTick, onMounted, watch } from 'vue';
 import useDxTable from '@/utils/dx-table';
 
@@ -42,12 +42,20 @@ const columnsWithActions = computed(() => {
         }
     ];
 });
-const { initialize, initialized } = useDxTable({
+const { initialize, initialized, table } = useDxTable({
     dataSource: props.dataSource,
     tableId: props.tableId,
     columns: columnsWithActions.value,
     perPage: props.perPage,
     pageSizes: props.pageSizes
+});
+
+const search = defineModel('search');
+const debouncedSearch = useDebounce(search, 500);
+watch(debouncedSearch, (value) => {
+    if (table.value) {
+        table.value.filter(['search', 'contains', value]);
+    }
 });
 
 const loadTable = () => {

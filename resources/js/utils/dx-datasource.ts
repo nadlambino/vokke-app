@@ -1,3 +1,4 @@
+import { AxiosPromise, AxiosResponse } from "axios";
 import { ref } from "vue";
 
 type LoadOptions = {
@@ -10,9 +11,11 @@ type Filter = {
     [key: string]: any
 }
 
-export default function useDxDataSource(params: { api: string, dataId: string }) {
-    const api = ref<string>(params.api);
+type GetterFunction = (params: object) => AxiosPromise<any>;
+
+export default function useDxDataSource(params: { api: string, dataId: string, getter: GetterFunction }) {
     const dataId = ref<string>(params.dataId);
+    const getter = ref<GetterFunction>(params.getter);
 
     const extractFilters = (options: LoadOptions): Filter => {
         const filter: Filter = {};
@@ -52,11 +55,10 @@ export default function useDxDataSource(params: { api: string, dataId: string })
                 const page = Math.floor(options.skip / options.take) + 1;
                 const params = { page, filter, per_page: perPage };
 
-                return await window.axios.get(api.value, { params })
-                    .then(response => {
-                        const { data } = response;
-                        return { data: data.data, totalCount: data.metadata.total_count };
-                    });
+                return await (getter.value)(params).then((response: AxiosResponse) => {
+                    const { data } = response;
+                    return { data: data.data, totalCount: data.metadata.total_count };
+                });
             },
         })
     };

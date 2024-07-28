@@ -20,6 +20,7 @@ export default function useDxTable(params: Params) {
     const initialized = ref(false);
     const { width } = useWindowSize();
     const isLargeDesktop = computed(() => width.value > 1280);
+    const table = ref<any>();
 
     const initialize = () => {
         initialized.value = true;
@@ -28,7 +29,7 @@ export default function useDxTable(params: Params) {
             return;
         }
 
-        window.$(`#${tableId.value}`)?.dxDataGrid({
+        table.value = window.$(`#${tableId.value}`)?.dxDataGrid({
             dataSource: Array.isArray(dataSource.value) ? dataSource.value : (dataSource.value)(),
             filterRow: { visible: true },
             remoteOperations: true,
@@ -42,7 +43,7 @@ export default function useDxTable(params: Params) {
                 allowedPageSizes: pageSizes.value,
                 showInfo: true
             }
-        });
+        }).dxDataGrid('instance');;
 
         initialized.value = false;
     }
@@ -50,5 +51,6 @@ export default function useDxTable(params: Params) {
     return {
         initialized,
         initialize,
+        table
     }
 }

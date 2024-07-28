@@ -11,10 +11,11 @@ import useDxDataSource from '@/utils/dx-datasource';
 const emits = defineEmits(['edit']);
 const toast = useToast();
 const kangaroo = ref<Kangaroo | null>(null);
-const { destroy, search } = useKangarooApi();
+const { destroy, get, search } = useKangarooApi();
 const dataSource = useDxDataSource({
     api: route('api.kangaroos.index') as string,
-    dataId: 'id'
+    dataId: 'id',
+    getter: get
 });
 const filterOptions = {
     filterOperations: ["contains"],
@@ -112,6 +113,7 @@ const proceedDelete = async () => {
     <KeepAlive>
         <DxTable
             table-id="kangaroos-table"
+            v-model:search="search"
             :data-source="dataSource"
             :per-page="5"
             :columns="columns"
