@@ -8,13 +8,11 @@ use App\Http\Requests\UpdateKangaroo;
 use App\Http\Resources\PetResource;
 use App\Models\Pet;
 use App\Models\User;
-use App\QueryBuilders\Kangaroo\SearchFilter;
 use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 use NadLambino\Uploadable\Actions\Upload;
-use Spatie\QueryBuilder\AllowedFilter;
 use Spatie\QueryBuilder\QueryBuilder;
 
 class KangarooController extends Controller
@@ -35,7 +33,6 @@ class KangarooController extends Controller
                 'height',
                 'gender',
                 'friendliness',
-                AllowedFilter::custom('search', new SearchFilter),
             ])
             ->allowedSorts(['name', 'weight', 'height', 'birthday'])
             ->with('image')

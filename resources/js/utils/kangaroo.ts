@@ -1,9 +1,6 @@
 import { ApiResponse, Kangaroo } from "@/types"
-import { ref } from "vue";
 
 export default function useKangarooApi() {
-    const search = ref('');
-
     const get = (params: object) => {
         return window.axios.get<ApiResponse<Kangaroo[]>>(route('api.kangaroos.index'), {
             params
@@ -34,7 +31,6 @@ export default function useKangarooApi() {
     }
 
     return {
-        search,
         get,
         create,
         update,

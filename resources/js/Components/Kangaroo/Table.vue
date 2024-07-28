@@ -5,13 +5,12 @@ import { useToast } from 'primevue/usetoast';
 import DxTable from '@/Components/Shared/DxTable.vue';
 import useKangarooApi from '@/utils/kangaroo';
 import Confirm from '@/Components/Shared/Confirm.vue';
-import TextInput from '../Shared/TextInput.vue';
 import useDxDataSource from '@/utils/dx-datasource';
 
 const emits = defineEmits(['edit']);
 const toast = useToast();
 const kangaroo = ref<Kangaroo | null>(null);
-const { destroy, get, search } = useKangarooApi();
+const { destroy, get } = useKangarooApi();
 const dataSource = useDxDataSource({
     api: route('api.kangaroos.index') as string,
     dataId: 'id',
@@ -105,18 +104,9 @@ const proceedDelete = async () => {
         @proceed="proceedDelete"
     />
 
-    <div class="flex justify-end items-center p-4">
-        <TextInput
-            v-model="search"
-            placeholder="Search kangaroo..."
-            class="w-96"
-        />
-    </div>
-
     <KeepAlive>
         <DxTable
             table-id="kangaroos-table"
-            v-model:search="search"
             :data-source="dataSource"
             :per-page="5"
             :columns="columns"

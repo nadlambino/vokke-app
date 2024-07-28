@@ -50,14 +50,6 @@ const { initialize, initialized, table } = useDxTable({
     pageSizes: props.pageSizes
 });
 
-const search = defineModel('search');
-const debouncedSearch = useDebounce(search, 500);
-watch(debouncedSearch, (value) => {
-    if (table.value) {
-        table.value.filter(['search', 'contains', value]);
-    }
-});
-
 const loadTable = () => {
     const interval = setInterval(() => {
         initialize();
