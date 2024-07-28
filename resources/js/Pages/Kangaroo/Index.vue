@@ -6,7 +6,7 @@ import Modal from '@/Components/Modal.vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import Form from '@/Components/Kangaroo/Form.vue';
-import KangarooTable from '@/Components/Kangaroo/KangarooTable.vue';
+import KangarooTable from '@/Components/Kangaroo/Table.vue';
 
 const showForm = ref(false);
 const kangaroo = ref<Kangaroo | null>(null);
