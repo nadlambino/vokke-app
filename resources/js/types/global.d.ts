@@ -6,7 +6,8 @@ import { PageProps as AppPageProps } from './';
 declare global {
     interface Window {
         axios: AxiosInstance;
-        $: JQueryStatic;
+        $: JQueryStatic & any; // Workaround for DevExpress types since we're using the cdn without the types.
+        DevExpress: any;
     }
 
     var route: typeof ziggyRoute;

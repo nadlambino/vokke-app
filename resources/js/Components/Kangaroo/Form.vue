@@ -1,24 +1,24 @@
 <script lang="ts" setup>
+import { computed, reactive, ref } from 'vue';
+import { useForm } from '@inertiajs/vue3';
+import { useToast } from 'primevue/usetoast';
+import { AxiosError } from 'axios';
+import { Kangaroo } from '@/types';
 import InputLabel from '@/Components/Shared/InputLabel.vue';
 import InputError from '@/Components/Shared/InputError.vue';
 import TextInput from '@/Components/Shared/TextInput.vue';
 import Select from '@/Components/Shared/Select.vue';
 import PrimaryButton from '../Shared/PrimaryButton.vue';
-import { useForm } from '@inertiajs/vue3';
-import { computed, reactive, ref } from 'vue';
-import { Kangaroo } from '@/types';
 import useKangarooApi from '@/utils/kangaroo';
-import { useToast } from 'primevue/usetoast';
 import Confirm from '@/Components/Shared/Confirm.vue';
 import FileUpload from '@/Components/Shared/FileUpload.vue';
-import { AxiosError } from 'axios';
 
 const props = defineProps<{
     data?: Kangaroo|null;
 }>();
 const isCreate = computed(() => !props.data);
-const emits = defineEmits(['close']);
-const { create, update, refetch } = useKangarooApi();
+const emits = defineEmits(['close', 'saved']);
+const { create, update } = useKangarooApi();
 const toast = useToast();
 const form = useForm<Kangaroo & { image: File|null }>({
     name: props.data?.name ?? '',
@@ -64,19 +64,17 @@ const submit = () => {
     if (isCreate.value) {
         create(form.data())
             .then(() => handleSuccessfulRequest('Kangaroo was created successfully'))
-            .catch((error: AxiosError) => handleFailedRequest('Kangaroo creation failed', error))
-            .finally(() => refetch());
+            .catch((error: AxiosError) => handleFailedRequest('Kangaroo creation failed', error));
     } else {
         update(props.data?.id as number, form.data())
             .then(() => handleSuccessfulRequest('Kangaroo was updated successfully'))
-            .catch((error) => handleFailedRequest('Kangaroo update failed', error))
-            .finally(() => refetch());
+            .catch((error) => handleFailedRequest('Kangaroo update failed', error));
     }
 }
 
 const handleSuccessfulRequest = (message: string) => {
     form.reset();
-    emits('close');
+    emits('saved');
     toast.add({ severity: 'success', summary: 'Success', detail: message, life: 3000 });
 }
 

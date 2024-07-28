@@ -6,16 +6,25 @@ import DxTable from '@/Components/Shared/DxTable.vue';
 import useKangarooApi from '@/utils/kangaroo';
 import Confirm from '@/Components/Shared/Confirm.vue';
 import TextInput from '../Shared/TextInput.vue';
+import useDxDataSource from '@/utils/dx-datasource';
 
 const emits = defineEmits(['edit']);
 const toast = useToast();
 const kangaroo = ref<Kangaroo | null>(null);
-const { kangaroos, destroy, refetch, search } = useKangarooApi();
+const { destroy, search } = useKangarooApi();
+const dataSource = useDxDataSource({
+    api: route('api.kangaroos.index') as string,
+    dataId: 'id'
+});
+const filterOptions = {
+    filterOperations: ["contains"],
+}
 const columns = [
     {
         dataField: 'image_url',
-        caption: 'Image',
+        caption: '',
         width: 100,
+        allowFiltering: false,
         cellTemplate: function(container: any, options: any) {
             $("<img class='rounded-full'>")
                 .attr("src", options.value || 'https://via.placeholder.com/50')
@@ -24,17 +33,23 @@ const columns = [
                 .appendTo(container);
         }
     },
-    'name',
+    {
+        dataField: 'name',
+        ...filterOptions
+    },
     {
         dataField: 'weight',
         caption: 'Weight (kg)',
+        ...filterOptions
     },
     {
         dataField: 'height',
         caption: 'Height (cm)',
+        ...filterOptions
     },
     {
         dataField: 'gender',
+        allowFiltering: false,
         cellTemplate: function(container: any, options: any) {
             $("<div class='capitalize px-4 md:px-0'>")
                 .text(options.value)
@@ -43,13 +58,17 @@ const columns = [
     },
     {
         dataField: 'friendliness',
+        allowFiltering: false,
         cellTemplate: function(container: any, options: any) {
             $("<div class='capitalize px-4 md:px-0'>")
                 .text(options.value)
                 .appendTo(container);
         }
     },
-    'birthday'
+    {
+        dataField: 'birthday',
+        allowFiltering: false,
+    }
 ];
 
 const showConfirm = ref(false);
@@ -57,13 +76,14 @@ const handleDelete = (data: Kangaroo) => {
     kangaroo.value = data;
     showConfirm.value = true;
 };
+const refreshToggle = defineModel('refreshToggle', { type: Boolean });
 const proceedDelete = async () => {
     await destroy(kangaroo.value?.id as number)
         .then(() => {
             toast.add({ severity: 'success', summary: 'Success', detail: 'Kangaroo was deleted successfully', life: 3000 });
             showConfirm.value = false;
             kangaroo.value = null;
-            refetch();
+            refreshToggle.value = !refreshToggle.value;
         })
         .catch(() => {
             toast.add({ severity: 'error', summary: 'Error', detail: 'Failed to delete the kangaroo', life: 3000 });
@@ -92,9 +112,11 @@ const proceedDelete = async () => {
     <KeepAlive>
         <DxTable
             table-id="kangaroos-table"
-            :data="kangaroos"
+            :data-source="dataSource"
+            :per-page="5"
             :columns="columns"
-            @edit="(data) => $emit('edit', data)"
+            :refresh-toggle="refreshToggle"
+            @edit="(data: Kangaroo) => emits('edit', data)"
             @delete="handleDelete"
         />
     </KeepAlive>

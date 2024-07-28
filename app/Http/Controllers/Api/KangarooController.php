@@ -11,6 +11,7 @@ use App\Models\User;
 use App\QueryBuilders\Kangaroo\SearchFilter;
 use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 use NadLambino\Uploadable\Actions\Upload;
 use Spatie\QueryBuilder\AllowedFilter;
@@ -25,17 +26,22 @@ class KangarooController extends Controller
         $this->user = auth()->user();
     }
 
-    public function index(): JsonResponse
+    public function index(Request $request): JsonResponse
     {
         $kangaroos = QueryBuilder::for($this->user->pet()->kangaroos())
             ->allowedFilters([
+                'name',
+                'weight',
+                'height',
                 AllowedFilter::custom('search', new SearchFilter),
             ])
             ->with('image')
             ->latest()
-            ->get();
+            ->paginate($request->get('per_page', 10));
 
-        return $this->success(PetResource::collection($kangaroos));
+        return $this->success(PetResource::collection($kangaroos), [
+            'total_count' => $kangaroos->total(),
+        ]);
     }
 
     public function store(CreateKangaroo $request): JsonResponse

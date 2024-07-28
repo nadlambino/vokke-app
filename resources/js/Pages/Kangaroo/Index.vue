@@ -10,9 +10,18 @@ import KangarooTable from '@/Components/Kangaroo/Table.vue';
 
 const showForm = ref(false);
 const kangaroo = ref<Kangaroo | null>(null);
+const refreshToggle = ref(false);
 const handleEdit = (data: Kangaroo) => {
     showForm.value = true;
     kangaroo.value = data;
+};
+const handleClose = () => {
+    showForm.value = false;
+    kangaroo.value = null;
+};
+const handleSaved = () => {
+    handleClose();
+    refreshToggle.value = !refreshToggle.value;
 };
 </script>
 
@@ -20,7 +29,7 @@ const handleEdit = (data: Kangaroo) => {
     <Head title="Kangaroo" />
 
     <Modal :show="showForm">
-        <Form @close="showForm = false; kangaroo = null" :data="kangaroo" />
+        <Form @close="handleClose" @saved="handleSaved" :data="kangaroo" />
     </Modal>
 
 
@@ -35,7 +44,7 @@ const handleEdit = (data: Kangaroo) => {
         <div class="py-12">
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
                 <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                    <KangarooTable @edit="handleEdit" />
+                    <KangarooTable v-model:refresh-toggle="refreshToggle" @edit="handleEdit" />
                 </div>
             </div>
         </div>
