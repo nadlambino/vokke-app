@@ -32,7 +32,11 @@ export default function useDxTable(params: Params) {
         table.value = window.$(`#${tableId.value}`)?.dxDataGrid({
             dataSource: Array.isArray(dataSource.value) ? dataSource.value : (dataSource.value)(),
             filterRow: { visible: true },
-            remoteOperations: true,
+            remoteOperations: {
+                filtering: true,
+                sorting: true,
+                paging: true
+            },
             columns: columns.value,
             columnHidingEnabled: !isLargeDesktop.value,
             paging: {

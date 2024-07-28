@@ -33,6 +33,8 @@ class KangarooController extends Controller
                 'name',
                 'weight',
                 'height',
+                'gender',
+                'friendliness',
                 AllowedFilter::custom('search', new SearchFilter),
             ])
             ->allowedSorts(['name', 'weight', 'height', 'birthday'])
