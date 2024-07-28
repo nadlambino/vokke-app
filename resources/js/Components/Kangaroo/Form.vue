@@ -25,9 +25,9 @@ const form = useForm<Kangaroo & { image: File|null }>({
     nickname: props.data?.nickname ?? '',
     weight: props.data?.weight ?? undefined,
     height: props.data?.height ?? undefined,
-    gender: props.data?.gender ?? undefined,
+    gender: props.data?.gender ?? 'male',
     color: props.data?.color ?? '',
-    friendliness: props.data?.friendliness ?? undefined,
+    friendliness: props.data?.friendliness ?? 'friendly',
     birthday: props.data?.birthday ?? '',
     image: null,
 });
