@@ -17,8 +17,14 @@ git clone https://github.com/nadlambino/vokke-app.git
 ```bash
 cp .env.example .env
 ```
+- Update `.env` according to your project setup such as the database.
 - Run `composer install`
 - Run `npm install`
+- Run `php artisan migrate:fresh --seed`. A test user will be created
+```bash
+email: test@example.com
+password: password
+```
 - Run `npm run dev`
 - If you're running the application on Valet, Herd, or Laragon, you can access the app on `http://vokke-app.test`. Otherwise, run `php artisan serve`
 
