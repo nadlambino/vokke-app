@@ -2,6 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-.p-divider-content {
-    background-color: #f9fafb !important;
+.p-confirmdialog {
+    border: none !important;
 }
