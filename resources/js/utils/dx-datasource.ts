@@ -5,6 +5,7 @@ type LoadOptions = {
     filter: Array<string|Array<string>> | undefined;
     skip: number;
     take: number;
+    sort: Array<{selector: string, desc: boolean}> | undefined;
 }
 
 type Filter = {
@@ -41,6 +42,17 @@ export default function useDxDataSource(params: { api: string, dataId: string, g
         return filter;
     }
 
+    const extractSort = (options: LoadOptions) => {
+        if (!options.sort || !Array.isArray(options.sort)) return null;
+
+        const sort = options.sort[0];
+        const { selector, desc } = sort;
+
+        if (!selector) return null;
+
+        return desc ? `-${selector}` : selector;
+    }
+
     const dataSource = () => {
         if (!window.DevExpress) {
             console.warn('DevExpress is not defined. Make sure to include the DevExpress library');
@@ -53,7 +65,8 @@ export default function useDxDataSource(params: { api: string, dataId: string, g
                 const filter = extractFilters(options);
                 const perPage = options.take || 10;
                 const page = Math.floor(options.skip / options.take) + 1;
-                const params = { page, filter, per_page: perPage };
+                const sort = extractSort(options);
+                const params = { page, filter, per_page: perPage, sort };
 
                 return await (getter.value)(params).then((response: AxiosResponse) => {
                     const { data } = response;

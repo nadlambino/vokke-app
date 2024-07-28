@@ -26,6 +26,7 @@ const columns = [
         caption: '',
         width: 100,
         allowFiltering: false,
+        allowSorting: false,
         cellTemplate: function(container: any, options: any) {
             $("<img class='rounded-full'>")
                 .attr("src", options.value || 'https://via.placeholder.com/50')
@@ -51,6 +52,7 @@ const columns = [
     {
         dataField: 'gender',
         allowFiltering: false,
+        allowSorting: false,
         cellTemplate: function(container: any, options: any) {
             $("<div class='capitalize px-4 md:px-0'>")
                 .text(options.value)
@@ -60,6 +62,7 @@ const columns = [
     {
         dataField: 'friendliness',
         allowFiltering: false,
+        allowSorting: false,
         cellTemplate: function(container: any, options: any) {
             $("<div class='capitalize px-4 md:px-0'>")
                 .text(options.value)

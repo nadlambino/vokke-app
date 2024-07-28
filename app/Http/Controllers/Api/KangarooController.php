@@ -35,6 +35,7 @@ class KangarooController extends Controller
                 'height',
                 AllowedFilter::custom('search', new SearchFilter),
             ])
+            ->allowedSorts(['name', 'weight', 'height', 'birthday'])
             ->with('image')
             ->latest()
             ->paginate($request->get('per_page', 10));
