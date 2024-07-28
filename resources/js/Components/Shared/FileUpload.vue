@@ -5,6 +5,7 @@ import PrimaryButton from '../Shared/PrimaryButton.vue';
 const props = withDefaults(defineProps<{
     accept?: string;
     multiple?: boolean;
+    name?: string;
 }>(), {
     accept: '*',
     multiple: false,
@@ -58,7 +59,7 @@ const handleFileRemove = (index: number) => {
                 <i class="pi pi-plus pr-2" />
                 <span>Browse</span>
             </PrimaryButton>
-            <input ref="fileInput" type="file" class="hidden" @change="handleFileSelect" :accept :multiple />
+            <input ref="fileInput" type="file" :name="name" class="hidden" @change="handleFileSelect" :accept :multiple />
         </div>
         <template v-for="(file, index) in displayFiles">
             <div class="flex flex-col items-center">

@@ -107,6 +107,7 @@ const handleFailedRequest = (message: string, error: any) => {
                     <InputLabel for="name" value="Name" required />
                     <TextInput
                         id="name"
+                        name="name"
                         class="mt-1 block w-full"
                         v-model="form.name"
                         required
@@ -118,6 +119,7 @@ const handleFailedRequest = (message: string, error: any) => {
                     <InputLabel for="nickname" value="Nickname" />
                     <TextInput
                         id="nickname"
+                        name="nickname"
                         class="mt-1 block w-full"
                         v-model="form.nickname"
                     />
@@ -127,9 +129,10 @@ const handleFailedRequest = (message: string, error: any) => {
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
                 <div>
-                    <InputLabel for="weight" value="Weight" required />
+                    <InputLabel for="weight" value="Weight (kg)" required />
                     <TextInput
                         id="weight"
+                        name="weight"
                         type="number"
                         step="0.01"
                         class="mt-1 block w-full"
@@ -139,9 +142,10 @@ const handleFailedRequest = (message: string, error: any) => {
                     <InputError class="mt-2" :message="errors.weight" />
                 </div>
                 <div>
-                    <InputLabel for="height" value="Height" required />
+                    <InputLabel for="height" value="Height (cm)" required />
                     <TextInput
                         id="height"
+                        name="height"
                         type="number"
                         step="0.01"
                         class="mt-1 block w-full"
@@ -157,6 +161,7 @@ const handleFailedRequest = (message: string, error: any) => {
                     <InputLabel for="gender" value="Gender" required />
                     <Select
                         id="gender"
+                        name="gender"
                         v-model="form.gender"
                         :options="genderOptions"
                         class="mt-1 block w-full"
@@ -168,6 +173,7 @@ const handleFailedRequest = (message: string, error: any) => {
                     <InputLabel for="color" value="Color" />
                     <TextInput
                         id="color"
+                        name="color"
                         class="mt-1 block w-full"
                         v-model="form.color"
                     />
@@ -180,6 +186,7 @@ const handleFailedRequest = (message: string, error: any) => {
                     <InputLabel for="friendliness" value="Friendliness" />
                     <Select
                         id="friendliness"
+                        name="friendliness"
                         v-model="form.friendliness"
                         :options="friendlinessOptions"
                         class="mt-1 block w-full"
@@ -190,6 +197,7 @@ const handleFailedRequest = (message: string, error: any) => {
                     <InputLabel for="birthday" value="Birthday" required />
                     <TextInput
                         id="birthday"
+                        name="birthday"
                         type="date"
                         class="mt-1 block w-full"
                         v-model="form.birthday"
@@ -206,6 +214,7 @@ const handleFailedRequest = (message: string, error: any) => {
                 </InputLabel>
                 <FileUpload
                     class="mt-1 block w-full"
+                    name="image"
                     id="image"
                     accept="image/*"
                     v-model="form.image"
