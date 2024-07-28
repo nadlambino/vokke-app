@@ -10,7 +10,7 @@ import { Kangaroo } from '@/types';
 import useKangarooApi from '@/utils/kangaroo';
 import { useToast } from 'primevue/usetoast';
 import Confirm from '@/Components/Shared/Confirm.vue';
-import FileUpload from '@/Components/FileUpload/FileUpload.vue';
+import FileUpload from '@/Components/Shared/FileUpload.vue';
 import { AxiosError } from 'axios';
 
 const props = defineProps<{
