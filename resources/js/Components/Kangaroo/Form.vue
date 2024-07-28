@@ -208,7 +208,7 @@ const handleFailedRequest = (message: string, error: any) => {
             <div>
                 <InputLabel for="image" class="w-full flex justify-between items-center">
                     <span>Image</span>
-                    <span v-if="!isCreate" class="!text-xs !text-gray-500">Image will be replace with the new one.</span>
+                    <span v-if="!isCreate" class="!text-xs !text-gray-500">Image will replace the previous one if there's any.</span>
                 </InputLabel>
                 <FileUpload
                     class="mt-1 block w-full"
