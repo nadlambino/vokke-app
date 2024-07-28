@@ -2,7 +2,7 @@
 import ConfirmDialog from 'primevue/confirmdialog';
 import { useConfirm } from 'primevue/useconfirm';
 import { watch } from 'vue';
-import PrimaryButton from '@/Components/PrimaryButton.vue';
+import PrimaryButton from '@/Components/Shared/PrimaryButton.vue';
 
 const emits = defineEmits(['cancel', 'proceed']);
 const props = withDefaults(defineProps<{

@@ -26,7 +26,7 @@ createInertiaApp({
                     preset: {
                         ...Aura,
                         semantic: {
-                            ...Aura.semantic,
+                            ...Aura,
                             primary: {
                                 50: '{gray.50}',
                                 100: '{gray.100}',

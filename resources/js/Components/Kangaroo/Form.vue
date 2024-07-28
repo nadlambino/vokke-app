@@ -1,15 +1,15 @@
 <script lang="ts" setup>
-import InputLabel from '@/Components/InputLabel.vue';
-import InputError from '@/Components/InputError.vue';
-import TextInput from '@/Components/TextInput.vue';
-import Select from '@/Components/Select.vue';
-import PrimaryButton from '../PrimaryButton.vue';
+import InputLabel from '@/Components/Shared/InputLabel.vue';
+import InputError from '@/Components/Shared/InputError.vue';
+import TextInput from '@/Components/Shared/TextInput.vue';
+import Select from '@/Components/Shared/Select.vue';
+import PrimaryButton from '../Shared/PrimaryButton.vue';
 import { useForm } from '@inertiajs/vue3';
 import { computed, reactive, ref } from 'vue';
 import { Kangaroo } from '@/types';
 import useKangarooApi from '@/utils/kangaroo';
 import { useToast } from 'primevue/usetoast';
-import Confirm from '@/Components/Confirm.vue';
+import Confirm from '@/Components/Shared/Confirm.vue';
 import FileUpload from '@/Components/FileUpload/FileUpload.vue';
 import { AxiosError } from 'axios';
 

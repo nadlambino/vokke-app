@@ -2,10 +2,10 @@
 import { ref } from 'vue';
 import { Kangaroo } from '@/types';
 import { useToast } from 'primevue/usetoast';
-import DxTable from '@/Components/DxTable.vue';
+import DxTable from '@/Components/Shared/DxTable.vue';
 import useKangarooApi from '@/utils/kangaroo';
-import Confirm from '@/Components/Confirm.vue';
-import TextInput from '../TextInput.vue';
+import Confirm from '@/Components/Shared/Confirm.vue';
+import TextInput from '../Shared/TextInput.vue';
 
 const emits = defineEmits(['edit']);
 const toast = useToast();

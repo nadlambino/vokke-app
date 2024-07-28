@@ -2,8 +2,8 @@
 import { ref } from 'vue';
 import { Head } from '@inertiajs/vue3';
 import { Kangaroo } from '@/types';
-import Modal from '@/Components/Modal.vue';
-import PrimaryButton from '@/Components/PrimaryButton.vue';
+import Modal from '@/Components/Shared/Modal.vue';
+import PrimaryButton from '@/Components/Shared/PrimaryButton.vue';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import Form from '@/Components/Kangaroo/Form.vue';
 import KangarooTable from '@/Components/Kangaroo/Table.vue';

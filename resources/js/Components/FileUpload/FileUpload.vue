@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { computed, ref } from 'vue';
-import PrimaryButton from '../PrimaryButton.vue';
+import PrimaryButton from '../Shared/PrimaryButton.vue';
 
 const props = withDefaults(defineProps<{
     accept?: string;
