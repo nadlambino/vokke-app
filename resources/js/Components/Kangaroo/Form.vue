@@ -200,6 +200,7 @@ const handleFailedRequest = (message: string, error: any) => {
                         class="mt-1 block w-full"
                         v-model="form.birthday"
                         required
+                        :max="new Date().toISOString().split('T')[0]"
                     />
                     <InputError class="mt-2" :message="errors.birthday" />
                 </div>
